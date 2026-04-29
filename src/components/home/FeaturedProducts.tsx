@@ -1,41 +1,51 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { supabase } from '../../lib/supabase';
 import { ProductCard } from '../ui/ProductCard';
-
-const featuredProducts = [
-    {
-        id: '1',
-        name: 'Class 10 CBSE Math Textbook - Latest Edition',
-        price: 350,
-        originalPrice: 400,
-        image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=2787&auto=format&fit=crop',
-        category: 'School Books'
-    },
-    {
-        id: '2',
-        name: 'SSC CGL Complete Preparation Kit',
-        price: 850,
-        originalPrice: 1200,
-        image: 'https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=2787&auto=format&fit=crop',
-        category: 'Competitive Exams'
-    },
-    {
-        id: '3',
-        name: 'Premium Leather Notebook - Ruled, 200 Pages',
-        price: 250,
-        originalPrice: 300,
-        image: 'https://images.unsplash.com/photo-1531346878377-a5eb9bc14c81?q=80&w=2787&auto=format&fit=crop',
-        category: 'Stationery'
-    },
-    {
-        id: '4',
-        name: 'Class 12 Physics Vol 1 & 2 Setup',
-        price: 650,
-        image: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=2798&auto=format&fit=crop',
-        category: 'School Books'
-    }
-];
+import { ShoppingBag } from 'lucide-react';
 
 export const FeaturedProducts: React.FC = () => {
+    const [products, setProducts] = useState<any[]>([]);
+    const [categories, setCategories] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // Fetch categories first to map category names
+                const { data: catData } = await supabase.from('categories').select('*');
+                if (catData) setCategories(catData);
+
+                // Fetch featured products
+                const { data: prodData, error } = await supabase
+                    .from('products')
+                    .select('*')
+                    .eq('is_featured', true)
+                    .limit(4);
+
+                if (error) throw error;
+                if (prodData) setProducts(prodData);
+            } catch (error) {
+                console.error('Error fetching featured products:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    if (loading) {
+        return (
+            <div className="py-20 flex justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+            </div>
+        );
+    }
+
+    if (products.length === 0) {
+        return null; // Don't show the section if no featured products
+    }
+
     return (
         <section className="py-20 bg-gray-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -53,16 +63,28 @@ export const FeaturedProducts: React.FC = () => {
                         href="https://wa.me/917419150418"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-primary hover:text-dark font-medium underline underline-offset-4 decoration-primary/30 mt-4 md:mt-0 transition-colors"
+                        className="text-primary hover:text-dark font-medium underline underline-offset-4 decoration-primary/30 mt-4 md:mt-0 transition-colors flex items-center gap-2"
                     >
-                        Request Full Catalog &rarr;
+                        Request Full Catalog <ShoppingBag size={18} />
                     </a>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {featuredProducts.map((product) => (
-                        <ProductCard key={product.id} {...product} />
-                    ))}
+                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                    {products.map((product) => {
+                        const cat = categories.find(c => c.id === product.category_id);
+                        return (
+                            <ProductCard 
+                                key={product.id} 
+                                id={product.id}
+                                name={product.name}
+                                price={product.price}
+                                originalPrice={product.original_price}
+                                image={product.images?.[0] || 'https://via.placeholder.com/150'}
+                                category={cat?.name || 'School Books'}
+                                inStock={product.in_stock}
+                            />
+                        );
+                    })}
                 </div>
             </div>
         </section>

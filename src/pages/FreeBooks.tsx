@@ -1,20 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BookOpen, Download, ExternalLink, MessageCircle, Filter } from 'lucide-react';
-
-const freeBooks = [
-    { id: 'fb1', title: 'NCERT Class 6 Science', class: 'Class 6', subject: 'Science', description: 'Official NCERT Science textbook for Class 6 students covering all foundational topics.', license: 'Official NCERT PDF', category: 'Government & Official Free PDFs' },
-    { id: 'fb2', title: 'NCERT Class 10 Mathematics', class: 'Class 10', subject: 'Mathematics', description: 'Official complete mathematics textbook for CBSE Class 10.', license: 'Official NCERT PDF', category: 'Government & Official Free PDFs' },
-    { id: 'fb3', title: 'NCERT Class 12 Physics', class: 'Class 12', subject: 'Physics', description: 'Comprehensive physics syllabus material for Class 12.', license: 'Official NCERT PDF', category: 'Government & Official Free PDFs' },
-    { id: 'fb4', title: 'NCERT Class 8 Social Science', class: 'Class 8', subject: 'Social Science', description: 'Social science detailed curriculum for Class 8.', license: 'Official NCERT PDF', category: 'Government & Official Free PDFs' },
-    { id: 'fb5', title: 'OpenStax Biology', class: 'High School', subject: 'Biology', description: 'Peer-reviewed, openly licensed introductory biology textbook.', license: 'Open Educational Resources', category: 'Open Educational Resources' },
-    { id: 'fb6', title: 'OpenStax Physics', class: 'High School', subject: 'Physics', description: 'Extensive openly licensed physics material for high school.', license: 'Open Educational Resources', category: 'Open Educational Resources' },
-    { id: 'fb7', title: 'CK-12 Algebra Basics', class: 'Middle/High School', subject: 'Mathematics', description: 'Interactive algebra basics and exercises.', license: 'Open Educational Resources', category: 'Open Educational Resources' },
-    { id: 'fb8', title: 'Panchatantra Stories', class: 'All Ages', subject: 'Literature', description: 'Ancient Indian collection of wisdom stories.', license: 'Public Domain', category: 'Public Domain Books' },
-    { id: 'fb9', title: 'Aesop’s Fables', class: 'All Ages', subject: 'Literature', description: 'Classic collection of fables with moral lessons.', license: 'Public Domain', category: 'Public Domain Books' },
-    { id: 'fb10', title: 'CBSE Sample Papers & Syllabus', class: 'Exam Prep', subject: 'Various', description: 'Official CBSE sample papers for exam preparation.', license: 'Official PDF', category: 'Government & Official Free PDFs' },
-];
+import { supabase } from '../lib/supabase';
 
 export const FreeBooks: React.FC = () => {
+    const [books, setBooks] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchBooks = async () => {
+            setLoading(true);
+            const { data, error } = await supabase.from('free_books').select('*').order('created_at', { ascending: false });
+            if (data) {
+                setBooks(data);
+            }
+            setLoading(false);
+        };
+        fetchBooks();
+    }, []);
     return (
         <div className="bg-gray-50 min-h-screen pb-20 relative">
             {/* SEO Meta (conceptual via title tag injection, could use React Helmet if installed) */}
@@ -63,40 +65,55 @@ export const FreeBooks: React.FC = () => {
 
                         {/* Resource Categories & Cards */}
                         <div className="space-y-6">
-                            {freeBooks.map((book) => (
-                                <div key={book.id} className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow flex flex-col sm:flex-row gap-6">
-                                    <div className="flex-1">
-                                        <div className="flex items-center gap-2 mb-2 flex-wrap">
-                                            <span className="text-xs font-bold text-accent bg-accent/10 px-2 py-1 rounded-md uppercase tracking-wide">
-                                                {book.category}
-                                            </span>
-                                            <span className="text-xs font-semibold text-gray-500 bg-gray-100 px-2 py-1 rounded-md">
-                                                {book.class}
-                                            </span>
-                                            <span className="text-xs font-semibold text-primary bg-primary/10 px-2 py-1 rounded-md">
-                                                {book.subject}
-                                            </span>
+                            {loading ? (
+                                <div className="text-center py-12 text-gray-500">Loading resources...</div>
+                            ) : books.length > 0 ? (
+                                books.map((book) => (
+                                    <div key={book.id} className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow flex flex-col sm:flex-row gap-6">
+                                        <div className="flex-1">
+                                            <div className="flex items-center gap-2 mb-2 flex-wrap">
+                                                <span className="text-xs font-bold text-accent bg-accent/10 px-2 py-1 rounded-md uppercase tracking-wide">
+                                                    {book.category}
+                                                </span>
+                                                <span className="text-xs font-semibold text-gray-500 bg-gray-100 px-2 py-1 rounded-md">
+                                                    {book.class}
+                                                </span>
+                                                <span className="text-xs font-semibold text-primary bg-primary/10 px-2 py-1 rounded-md">
+                                                    {book.subject}
+                                                </span>
+                                            </div>
+                                            <h3 className="text-xl font-heading font-bold text-dark mb-2">{book.title}</h3>
+                                            <p className="text-gray-600 text-sm mb-4 line-clamp-2">{book.description}</p>
+                                            <div className="flex items-center text-xs font-medium text-gray-500">
+                                                <span className="flex items-center bg-gray-50 border border-gray-200 px-2 py-1 rounded">
+                                                    License: {book.license}
+                                                </span>
+                                            </div>
                                         </div>
-                                        <h3 className="text-xl font-heading font-bold text-dark mb-2">{book.title}</h3>
-                                        <p className="text-gray-600 text-sm mb-4 line-clamp-2">{book.description}</p>
-                                        <div className="flex items-center text-xs font-medium text-gray-500">
-                                            <span className="flex items-center bg-gray-50 border border-gray-200 px-2 py-1 rounded">
-                                                License: {book.license}
-                                            </span>
+                                        <div className="flex sm:flex-col justify-end gap-3 sm:w-48">
+                                            {book.read_link && (
+                                                <a href={book.read_link} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center bg-primary hover:bg-primary/90 text-white px-4 py-2.5 rounded-lg font-semibold transition-colors text-sm shadow-sm group">
+                                                    <BookOpen size={16} className="mr-2 group-hover:scale-110 transition-transform" />
+                                                    Read Online
+                                                </a>
+                                            )}
+                                            {book.download_link && (
+                                                <a href={book.download_link} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center bg-white border-2 border-primary text-primary hover:bg-primary/5 px-4 py-2.5 rounded-lg font-semibold transition-colors text-sm">
+                                                    <Download size={16} className="mr-2" />
+                                                    Download
+                                                </a>
+                                            )}
+                                            {!book.read_link && !book.download_link && (
+                                                <div className="flex-1 flex items-center justify-center bg-gray-100 text-gray-500 px-4 py-2.5 rounded-lg font-semibold text-sm">
+                                                    Unavailable
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
-                                    <div className="flex sm:flex-col justify-end gap-3 sm:w-48">
-                                        <button className="flex-1 flex items-center justify-center bg-primary hover:bg-primary/90 text-white px-4 py-2.5 rounded-lg font-semibold transition-colors text-sm shadow-sm group">
-                                            <BookOpen size={16} className="mr-2 group-hover:scale-110 transition-transform" />
-                                            Read Online
-                                        </button>
-                                        <button className="flex-1 flex items-center justify-center bg-white border-2 border-primary text-primary hover:bg-primary/5 px-4 py-2.5 rounded-lg font-semibold transition-colors text-sm">
-                                            <Download size={16} className="mr-2" />
-                                            Download
-                                        </button>
-                                    </div>
-                                </div>
-                            ))}
+                                ))
+                            ) : (
+                                <div className="text-center py-12 text-gray-500">No resources found.</div>
+                            )}
                         </div>
                     </div>
 

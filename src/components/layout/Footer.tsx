@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Phone, MapPin, Mail, Instagram, Facebook, Clock, X } from 'lucide-react';
+import { Phone, MapPin, Mail, Instagram, Facebook, Clock, X, AtSign } from 'lucide-react';
 
 export const Footer: React.FC = () => {
     const [showToast, setShowToast] = useState(false);
 
-    const handleSocialClick = (e: React.MouseEvent) => {
+    const handleComingSoonClick = (e: React.MouseEvent) => {
         e.preventDefault();
         setShowToast(true);
         setTimeout(() => setShowToast(false), 3000);
@@ -29,10 +29,25 @@ export const Footer: React.FC = () => {
                             Your trusted learning partner for decades. We provide school books, competitive exam preparation materials, stationery, and premium office supplies with honest service and community focus.
                         </p>
                         <div className="flex space-x-4 pt-2 relative">
-                            <a href="#" onClick={handleSocialClick} className="text-secondary/80 hover:text-accent transition-colors">
+                            <a 
+                                href="https://www.instagram.com/sainipustakbhandarchh?igsh=MWpsaHphNmk4ZHJzdA%3D%3D&utm_source=qr" 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                className="text-secondary/80 hover:text-accent transition-colors"
+                                title="Follow us on Instagram"
+                            >
                                 <Instagram size={20} />
                             </a>
-                            <a href="#" onClick={handleSocialClick} className="text-secondary/80 hover:text-accent transition-colors">
+                            <a 
+                                href="https://www.threads.com/@sainipustakbhandarchh?igshid=NTc4MTIwNjQ2YQ==" 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                className="text-secondary/80 hover:text-accent transition-colors"
+                                title="Follow us on Threads"
+                            >
+                                <AtSign size={20} />
+                            </a>
+                            <a href="#" onClick={handleComingSoonClick} className="text-secondary/80 hover:text-accent transition-colors" title="Facebook (Coming Soon)">
                                 <Facebook size={20} />
                             </a>
 
@@ -79,7 +94,7 @@ export const Footer: React.FC = () => {
                             </li>
                             <li className="flex items-center">
                                 <Mail size={18} className="mr-3 text-accent shrink-0" />
-                                <a href="mailto:info@sainipustakbhandar.com" className="hover:text-accent transition-colors">info@sainipustakbhandar.com</a>
+                                <a href="mailto:Sainipustakbhandarchh@gmail.com" className="hover:text-accent transition-colors">Sainipustakbhandarchh@gmail.com</a>
                             </li>
                         </ul>
                     </div>

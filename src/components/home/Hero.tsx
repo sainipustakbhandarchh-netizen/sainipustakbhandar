@@ -1,5 +1,5 @@
-import React from 'react';
-import { ArrowRight, BookOpen } from 'lucide-react';
+import { ArrowRight, BookOpen, ShoppingBag } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export const Hero: React.FC = () => {
     return (
@@ -9,9 +9,9 @@ export const Hero: React.FC = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="lg:grid lg:grid-cols-12 lg:gap-8 items-center">
                     <div className="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left">
-                        <div className="inline-flex items-center px-4 py-2 rounded-full bg-primary/10 text-primary mb-6 font-medium text-sm">
-                            <BookOpen size={16} className="mr-2" />
-                            Serving the community since 1996
+                        <div className="inline-flex items-center px-4 py-2 rounded-full bg-primary/10 text-primary mb-6 font-medium text-sm mx-auto lg:mx-0">
+                            <BookOpen size={16} className="mr-2 flex-shrink-0" />
+                            <span className="whitespace-nowrap">Serving the community since 1996</span>
                         </div>
 
                         <h1 className="text-4xl tracking-tight font-extrabold text-dark sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl mb-6">
@@ -24,21 +24,20 @@ export const Hero: React.FC = () => {
                         </p>
 
                         <div className="mt-8 sm:max-w-lg sm:mx-auto sm:text-center lg:text-left lg:mx-0 flex flex-col sm:flex-row gap-4">
-                            <a
-                                href="https://wa.me/917419150418?text=Hello%20Saini%20Pustak%20Bhandar!%20I%20would%20like%20to%20place%20an%20order."
-                                target="_blank"
-                                rel="noopener noreferrer"
+                            <Link
+                                to="/category/all"
                                 className="inline-flex items-center justify-center px-8 py-3.5 border border-transparent text-base font-semibold rounded-lg text-white bg-primary hover:bg-primary/90 hover:shadow-lg transition-all duration-300 md:text-lg"
                             >
-                                Order on WhatsApp
-                            </a>
-                            <a
-                                href="#categories"
+                                <ShoppingBag size={20} className="mr-2" />
+                                Shop
+                            </Link>
+                            <Link
+                                to="/services"
                                 className="inline-flex items-center justify-center px-8 py-3.5 border-2 border-primary text-base font-semibold rounded-lg text-primary bg-transparent hover:bg-primary/5 transition-all duration-300 md:text-lg"
                             >
-                                Browse Categories
+                                Check Services
                                 <ArrowRight size={18} className="ml-2" />
-                            </a>
+                            </Link>
                         </div>
                     </div>
 
