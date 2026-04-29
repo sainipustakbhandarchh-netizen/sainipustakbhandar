@@ -43,7 +43,7 @@ export const ProductManager = () => {
         if (filterCategoryId && filterCategoryId !== 'all') {
             query = query.eq('category_id', filterCategoryId);
         }
-        const { data, error } = await query;
+        const { data } = await query;
         if (data) setProducts(data);
     };
 

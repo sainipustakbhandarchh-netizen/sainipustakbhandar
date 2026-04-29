@@ -19,7 +19,7 @@ export const CategoryManager = () => {
     }, []);
 
     const fetchCategories = async () => {
-        const { data, error } = await supabase.from('categories').select('*').order('created_at', { ascending: false });
+        const { data } = await supabase.from('categories').select('*').order('created_at', { ascending: false });
         if (data) setCategories(data);
     };
 

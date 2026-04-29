@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
-import { Plus, Trash2, Edit2 } from 'lucide-react';
+import { Trash2, Edit2 } from 'lucide-react';
 
 export const FreeBooksManager = () => {
     const [books, setBooks] = useState<any[]>([]);
@@ -23,7 +23,7 @@ export const FreeBooksManager = () => {
     }, []);
 
     const fetchBooks = async () => {
-        const { data, error } = await supabase.from('free_books').select('*').order('created_at', { ascending: false });
+        const { data } = await supabase.from('free_books').select('*').order('created_at', { ascending: false });
         if (data) setBooks(data);
     };
 

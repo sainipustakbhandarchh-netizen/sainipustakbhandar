@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { ProductCard } from '../components/ui/ProductCard';
-import { Filter, X } from 'lucide-react';
+import { Filter } from 'lucide-react';
 
 export const CategoryPage: React.FC = () => {
     const { categoryId } = useParams<{ categoryId: string }>();

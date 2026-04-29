@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ShoppingBag, ChevronLeft, ChevronRight, X, ArrowLeft, Download, Heart, ShoppingCart, Plus, Minus, Truck, ShieldCheck, Clock } from 'lucide-react';
+import { ShoppingBag, ChevronLeft, ChevronRight, X, ArrowLeft, Download, Heart, ShoppingCart, Plus, Minus, Truck, ShieldCheck } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useWishlist } from '../contexts/WishlistContext';
 import { useCart } from '../contexts/CartContext';

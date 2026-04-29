@@ -9,7 +9,7 @@ export const FreeBooks: React.FC = () => {
     useEffect(() => {
         const fetchBooks = async () => {
             setLoading(true);
-            const { data, error } = await supabase.from('free_books').select('*').order('created_at', { ascending: false });
+            const { data } = await supabase.from('free_books').select('*').order('created_at', { ascending: false });
             if (data) {
                 setBooks(data);
             }
