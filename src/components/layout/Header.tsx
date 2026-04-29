@@ -66,12 +66,12 @@ export const Header: React.FC = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-20 items-center">
                     {/* Logo */}
-                    <div className="flex-shrink-0 flex items-center">
+                    <div className="flex-shrink-0 flex items-center pr-2">
                         <Link to="/" className="flex flex-col">
-                            <span className="font-heading text-2xl font-bold text-primary leading-none">
+                            <span className="font-heading text-xl sm:text-2xl font-bold text-primary leading-none">
                                 Saini Pustak Bhandar
                             </span>
-                            <span className="text-xs text-dark/70 font-medium tracking-wider mt-1">
+                            <span className="text-[10px] sm:text-xs text-dark/70 font-medium tracking-wider mt-0.5 sm:mt-1">
                                 EST. 1996
                             </span>
                         </Link>
@@ -111,20 +111,20 @@ export const Header: React.FC = () => {
                     </nav>
 
                     {/* Icons and Mobile Menu */}
-                    <div className="flex items-center space-x-2 xl:space-x-4 ml-4">
-                        <Link to="/wishlist" className="relative text-dark hover:text-primary transition-colors p-2" aria-label="Wishlist">
-                            <Heart size={24} />
+                    <div className="flex items-center space-x-1 sm:space-x-2 xl:space-x-4">
+                        <Link to="/wishlist" className="relative text-dark hover:text-primary transition-colors p-1.5 sm:p-2" aria-label="Wishlist">
+                            <Heart size={22} className="sm:w-6 sm:h-6" />
                             {wishlistItems.length > 0 && (
-                                <span className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">
+                                <span className="absolute top-0.5 right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">
                                     {wishlistItems.length}
                                 </span>
                             )}
                         </Link>
 
-                        <Link to="/cart" className="relative text-dark hover:text-primary transition-colors p-2" aria-label="Cart">
-                            <ShoppingBag size={24} />
+                        <Link to="/cart" className="relative text-dark hover:text-primary transition-colors p-1.5 sm:p-2" aria-label="Cart">
+                            <ShoppingBag size={22} className="sm:w-6 sm:h-6" />
                             {cartCount > 0 && (
-                                <span className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">
+                                <span className="absolute top-0.5 right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">
                                     {cartCount}
                                 </span>
                             )}
@@ -134,10 +134,10 @@ export const Header: React.FC = () => {
                         <div className="flex items-center xl:hidden">
                             <button
                                 onClick={toggleMenu}
-                                className="text-dark hover:text-primary focus:outline-none p-2"
+                                className="text-dark hover:text-primary focus:outline-none p-1.5 sm:p-2"
                                 aria-label="Toggle menu"
                             >
-                                {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+                                {isMenuOpen ? <X size={24} className="sm:w-7 sm:h-7" /> : <Menu size={24} className="sm:w-7 sm:h-7" />}
                             </button>
                         </div>
                     </div>

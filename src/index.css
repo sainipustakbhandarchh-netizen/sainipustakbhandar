@@ -12,7 +12,8 @@
 }
 
 @layer base {
-  html {
+  html, body {
+    @apply overflow-x-hidden w-full;
     scroll-behavior: smooth;
   }
 
